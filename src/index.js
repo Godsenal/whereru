@@ -5,11 +5,18 @@ import 'babel-polyfill';
 
 import { Provider } from 'react-redux';
 
-import { App } from './container';
-//import configureStore from './store';
+import { LocaleProvider } from 'antd';
+import koKR from 'antd/lib/locale-provider/ko_KR';
 
-//<Provider store={configureStore()}>
+import { App } from './container';
+import { store } from './store';
+
+
 ReactDOM.render(
-  <App />,
+  <Provider store={store}>
+    <LocaleProvider locale={koKR}>
+      <App />
+    </LocaleProvider>
+  </Provider>,
   document.getElementById('root')
 );

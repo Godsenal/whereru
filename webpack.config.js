@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var CompressionPlugin = require('compression-webpack-plugin');
-
 module.exports = {
   entry: "./src/index.js",
   output: {
@@ -14,26 +13,32 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
-        loader: "babel-loader",
-        exclude: /node_modules/
+        test: /.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+            presets: ["react","env","stage-2"],
+            plugins: ["react-hot-loader/babel",]
+        }
       },
-      {
-        test: /\.jsx$/,
-        loader: "babel-loader",
-        exclude: /node_modules/
+      { 
+        test: /\.jsx$/, 
+        loader: 'babel-loader', 
+        exclude: /node_modules/,
       },
       {
         test: /\.css$/,
-        include: [/node_modules/, /style\/quill/],
-        loader: "style-loader!css-loader"
-        //loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-      },
-      {
-        test: /\.css$/,
-        exclude: [/node_modules/, /style\/quill/],
-        loader:
-          "style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]"
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+              modules: true,
+              localIdentName: '[path][name]__[local]--[hash:base64:5]'
+            },
+          },
+        ],
       },
       {
         test: /\.scss$/,
@@ -42,18 +47,21 @@ module.exports = {
             loader: "style-loader"
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
-              sourceMap: true
-            }
+              sourceMap: true,
+              modules: true,
+              localIdentName: '[path][name]__[local]--[hash:base64:5]'
+            },
           },
           {
             loader: "sass-loader",
             options: {
-              sourceMap: true
-            }
-          }
-        ]
+              sourceMap: true,
+              modules: true,
+              localIdentName: '[path][name]__[local]--[hash:base64:5]'
+            },
+          }]
       }
     ]
   },

@@ -1,4 +1,10 @@
 var webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+const extractSass = new ExtractTextPlugin({
+    filename: "[name].[contenthash].css",
+    disable: process.env.NODE_ENV === "development"
+});
 
 module.exports = {
   entry: [
@@ -13,7 +19,7 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
   devServer: {
     hot: true,
@@ -32,8 +38,8 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-            presets: ["react","env"],
-            plugins: ["react-hot-loader/babel"]
+            presets: ["react","env","stage-2"],
+            plugins: ["react-hot-loader/babel",]
         }
       },
       { 
@@ -43,36 +49,21 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: [/node_modules/,/style\/quill/],
         loader: 'style-loader!css-loader'
         //loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
       },
       {
-        test: /\.css$/,
-        exclude: [/node_modules/,/style\/quill/],
-        loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-      },
-      {
         test: /\.scss$/,
-        use:
-        [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options:
-            {
-              sourceMap: true
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options:
-            {
-              sourceMap: true
-            }
-          }]
+        use: [
+          'style-loader',
+          // Using source maps breaks urls in the CSS loader
+          // https://github.com/webpack/css-loader/issues/232
+          // This comment solves it, but breaks testing from a local network
+          // https://github.com/webpack/css-loader/issues/232#issuecomment-240449998
+          // 'css-loader?sourceMap',
+          'css-loader?importLoaders=1&modules&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
+          'sass-loader',
+        ]
       }
     ]
   }

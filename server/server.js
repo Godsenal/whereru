@@ -51,7 +51,7 @@ app.get('*.scss', function(req, res, next) {
 
 if (NODE_ENV == "development") {
   console.log("Server is running on development mode");
-  const webpackConfig = require("../webpack.dev.config"); 
+  const webpackConfig = require('../webpack.dev.config');
   let compiler = webpack(webpackConfig);
   let devServer = new WebpackDevServer(compiler, webpackConfig.devServer);
   devServer.listen(3001, () => {

@@ -1,0 +1,47 @@
+
+$break-small: 999px;
+$break-large: 1000px;
+.container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+  @media screen and (max-width: $break-small) {
+    width: 80%;
+  }
+  @media screen and (min-width: $break-large) {
+    width: 40%;
+  }
+
+}
+.question{
+  padding: 10px;
+  font-family: 'Noto sans KR','Ubuntu',sans-serif;
+  font-weight: 600;
+}
+.mainInput{
+  font-family: 'Nanum Gothic','Ubuntu',sans-serif;
+  font-size: 16px;
+  padding: 5px;
+  width: 100%;
+  text-align: center;
+  &:focus{
+    outline: none;
+  }
+}
+
+.divider{
+  border-top: 1px solid #ccc;
+  margin: 20px 0px;
+}
+
+.or{
+  background: white;
+  position: absolute;
+  z-index: 999;
+  width: 30px;
+  margin: -30px 0px;
+  left: calc(50% - 15px);
+}

@@ -1,0 +1,34 @@
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+//Nanum Gothic
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+//Noto Sans KR
+@import url(http://fonts.googleapis.com/earlyaccess/hanna.css);
+//Hanna
+@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-size: 90%;
+}
+
+body, span, div, a, h1 {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body, button, input, select, textarea {
+  line-height: 1.5;
+  font-family: 'Ubuntu', 'Nanum Gothic', sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container{
+  width: 100%;
+  height: 100%;
+}
