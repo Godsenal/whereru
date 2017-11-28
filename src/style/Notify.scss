@@ -1,0 +1,32 @@
+@import 'util/boxShadow';
+@import 'util/color';
+
+.notifyWrapper{
+  z-index: 1000;
+  position: fixed;
+  width: 200px;
+  top: calc(10%);
+  left: calc(50% - 100px);
+  @include box-shadow;
+  border-radius: 4px;
+}
+
+.notify{
+  padding: 20px 5px; 
+  text-align: center;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+}
+
+.success{
+  color: $green;
+}
+
+.warning{
+  color: $yellow;
+}
+
+.error{
+  color: $red;
+}

@@ -1,3 +1,3 @@
 import DaumAddressSearch from './DaumAddressSearch';
-
-export { DaumAddressSearch };
+import Notify from './Notify';
+export { DaumAddressSearch, Notify };

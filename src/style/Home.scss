@@ -2,6 +2,10 @@
 @import './util/centerer';
 @import './util/media';
 
+.body{
+  width: 100%;
+  height: 100%;
+}
 .container{
   @include bothCenterer;
   @include respond-to(medium-screen){
@@ -27,6 +31,7 @@
   width: 100%;
   text-align: center;
   border: .5px solid #ccc;
+  border-radius: 4px;
   &:focus{
     outline: none;
   }
