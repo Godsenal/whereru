@@ -18,6 +18,9 @@
     "react-addons-update": "^15.6.2",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },
@@ -48,12 +51,12 @@
   },
   "scripts": {
     "test": "hello",
-    "clean": "rm -rf public/bundle.js && rm -rf public/bundle.js.gz",
+    "clean": "rm public/bundle.js && rm public/bundle.js.gz",
     "build": "babel server --out-dir build && webpack --progress",
     "start:dev": "nodemon --exec babel-node ./server/server.js",
     "start": "NODE_ENV=production node ./build/server.js",
     "development": "NODE_ENV=development nodemon --exec babel-node ./server/server.js",
-    "development_windows": "set NODE_ENV=development&&node ./build/server.js"
+    "development_windows": "set NODE_ENV=development&&nodemon -L --exec babel-node ./server/server.js"
   },
   "repository": {
     "type": "git",

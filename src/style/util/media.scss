@@ -1,0 +1,16 @@
+$break-small: 999px;
+$break-large: 1000px;
+@mixin media($queryString){
+  @media #{$queryString} {
+    @content;
+  }
+}
+
+@mixin respond-to($media) {
+  @if $media == medium-screen {
+    @media only screen and (max-width: $break-small) { @content; }
+  }
+  @else if $media == wide-screen {
+    @media only screen and (min-width: $break-large) { @content; }
+  }
+}

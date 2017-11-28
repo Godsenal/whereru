@@ -15,6 +15,10 @@ class Home extends Component {
       isReady : false,
     };
   }
+  componentDidMount = () => {
+    console.log(this.props.location)
+  }
+  
   showModal = () => {
     if(!this.state.visible){
       this.setState({
@@ -44,6 +48,7 @@ class Home extends Component {
     this.props.getLatlon(data.address)
       .then(
         res=>{
+          this.props.history.push('/information');
           console.log(this.props.latlon);
         });
   }
@@ -85,7 +90,7 @@ class Home extends Component {
       <div>
         <div className={styles.container}>
           <h2 className={styles.question}>어디에 있나요?</h2>
-          <input className={styles.mainInput} placeholder='검색해보세요.' onClick={this.showModal} value={address.name}/>
+          <input className={styles.mainInput} placeholder='검색해보세요.' readOnly onClick={this.showModal} value={address.name}/>
           <div className={styles.divider}/>
           <div className={styles.or}>or</div>
           <Button shape="circle" icon="compass" onClick={this.getLocation}/>

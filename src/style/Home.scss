@@ -1,25 +1,24 @@
 
-$break-small: 999px;
-$break-large: 1000px;
-.container{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+@import './util/centerer';
+@import './util/media';
 
-  @media screen and (max-width: $break-small) {
+.container{
+  @include bothCenterer;
+  @include respond-to(medium-screen){
     width: 80%;
   }
-  @media screen and (min-width: $break-large) {
+  @include respond-to(wide-screen){
     width: 40%;
   }
+  text-align: center;
 
 }
 .question{
   padding: 10px;
-  font-family: 'Noto sans KR','Ubuntu',sans-serif;
+  margin: 1.5rem;
+  font-family: 'Nanum Gothic','Ubuntu',sans-serif;
   font-weight: 600;
+  font-size: 24px;
 }
 .mainInput{
   font-family: 'Nanum Gothic','Ubuntu',sans-serif;
@@ -27,8 +26,14 @@ $break-large: 1000px;
   padding: 5px;
   width: 100%;
   text-align: center;
+  border: .5px solid #ccc;
   &:focus{
     outline: none;
+  }
+  @include respond-to(wide-screen){
+    &:hover{
+      cursor: text;
+    }
   }
 }
 

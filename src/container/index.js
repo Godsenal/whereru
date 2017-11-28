@@ -1,4 +1,5 @@
 import App from './App';
 import Home from './Home';
+import Information from './Information';
 
-export {App, Home};
+export {App, Home, Information};
