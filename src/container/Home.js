@@ -22,8 +22,13 @@ class Home extends Component {
     if(nextProps.location.state && nextProps.location.state.isRedirect){
       this.props.history.replace('/',undefined);
       this.notify.notify('먼저 위치를 설정해주세요.','warning',3000);
+      this.notify.notify('먼저 ff 설정해주세요.','warning',3000);
+      this.notify.notify('먼저 위치를 qq.','warning',3000);
 
     }
+  }
+  getNotify = () =>{
+    this.notify.notify('먼저 위치를 qq.','warning',3000);
   }
   showModal = () => {
     if(!this.state.visible){
@@ -112,6 +117,7 @@ class Home extends Component {
         >
           <DaumAddressSearch visible={visible} handleSearchComplete={this.handleSearchComplete}/>
         </Modal>
+        <Button shape="circle" onClick={this.getNotify} />
         <Notify
           ref={ref=>this.notify = ref}/>
       </div>

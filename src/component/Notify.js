@@ -1,44 +1,51 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { CSSTransition} from 'react-transition-group';
+import { CSSTransition, TransitionGroup} from 'react-transition-group';
+
+import * as util from '../util/NotifyUtil';
 import styles from '../style/notify.scss';
 import '../style/transition.css';
 import FaExclamationCircle from 'react-icons/lib/fa/exclamation-circle';
 import FaCheckCircle from 'react-icons/lib/fa/check-circle';
 import FaTimesCircle from 'react-icons/lib/fa/times-circle';
-export default class Notify extends Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      show: false,
-      message: '',
-      type: ''
-    };
+
+class Notification extends Component{
+  static defaultProps = {
+    classNames: 'boom',
+    timeout: 500,
+    mountOnEnter: true,
+    unmountOnExit: true,
+  };
+  static propTypes = {
+    classNames: PropTypes.string.isRequired,
+    timeout: PropTypes.number.isRequired,
+    mountOnEnter: PropTypes.bool.isRequired,
+    unmountOnExit: PropTypes.bool.isRequired,
+  };
+  state = {
+    in : true,
   }
-  notify = (message = '메시지를 설정해주세요.', type = '', duration = 3000) => {
-    this.setState({
-      show: true,
-      message,
-      type,
-    });
+  componentDidMount(){
     setTimeout(()=>{
-      this.setState({
-        show: false,
+      this.setState((state, props)=>{
+        return {
+          in: false
+        };
       });
-    },duration);
+    },this.props.duration);
   }
   render(){
-    const {show, type, message} = this.state;
-    const props = this.props;
+    const {key, classNames, timeout, mountOnEnter, unmountOnExit, id, message, children, handleRemove, type} = this.props;
     return(
       <CSSTransition
-        in={show}
-        classNames={props.classNames}
-        timeout={props.timeout}
-        mountOnEnter={props.mountOnEnter}
-        unmountOnExit={props.unmountOnExit}>
+        in={this.state.in}
+        classNames={classNames}
+        timeout={timeout}
+        mountOnEnter={mountOnEnter}
+        unmountOnExit={unmountOnExit}
+        onExited={()=>{handleRemove(id);}}>
         {
-          !props.children?
+          !children?
             <div className={styles.notifyWrapper}>
               <div className={styles.notify}>
                 {type == 'success'?
@@ -53,24 +60,64 @@ export default class Notify extends Component{
             </div>
             :
             <div className={styles.notifyWrapper}>
-              {props.children}
+              {children}
             </div>
         }
       </CSSTransition>
     );
   }
   
-};
+  
+}
+export default class Notify extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      show: false,
+      message: '',
+      type: '',
+      id: 0,
+      notifications: [],
+    };
+  }
+  notify = (message = '메시지를 설정해주세요.', type = '', duration = 3000) => {
+    this.setState(function(state,props){
+      let key = util.generateToastId();
+      return {
+        id: state.id + 1,
+        notifications: [...state.notifications, this.makeNotification(message, type, duration,key)]
+      };
+    });
+  }
+  makeNotification = (message, type, duration, key) => {
+    return {
+      component: <Notification key={key} id={key} message={message} type={type} duration={duration} handleRemove={this.handleRemove}/>,
+      id: key
+    };
+  }
+  handleRemove = (key) => {
+    console.log(key);
+    this.setState(
+      function(state, props){
+        return {
+          notifications: state.notifications.filter(noti => noti.id !== key)
+        };
+      });
+  }
+  renderNotification = () => {
+    return (
+      this.state.notifications.map((noti,index) => {
+        return noti.component;
+      })
+    );
+  }
+  render(){
+    return(
+      <TransitionGroup className={styles.transitionContainer}>
+        {this.renderNotification()}
+      </TransitionGroup>
+    );
+  }
+  
+}
 
-Notify.defaultProps = {
-  classNames: 'boom',
-  timeout: 500,
-  mountOnEnter: true,
-  unmountOnExit: true,
-};
-Notify.propTypes = {
-  classNames: PropTypes.string.isRequired,
-  timeout: PropTypes.number.isRequired,
-  mountOnEnter: PropTypes.bool.isRequired,
-  unmountOnExit: PropTypes.bool.isRequired,
-};
