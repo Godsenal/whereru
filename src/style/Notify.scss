@@ -9,14 +9,15 @@
   left: calc(50% - 250px);
 }
 .notifyWrapper{
-  margin-top: 30px;
-  width: 200px;
+  width: 300px;
+  margin: 10px auto;
   @include box-shadow;
   border-radius: 4px;
+  background: white;
 }
 
 .notify{
-  padding: 20px 5px; 
+  padding: 10px 5px; 
   text-align: center;
   display: flex; 
   justify-content: center; 
@@ -33,4 +34,8 @@
 
 .error{
   color: $red;
+}
+
+.loading{
+  color: $sky;
 }

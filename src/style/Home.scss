@@ -1,7 +1,7 @@
 
 @import './util/centerer';
 @import './util/media';
-
+@import './util/color';
 .body{
   width: 100%;
   height: 100%;
@@ -30,18 +30,28 @@
   padding: 5px;
   width: 100%;
   text-align: center;
-  border: .5px solid #ccc;
+  border: .5px solid;
+  border-color: #ccc;
+  color: black;
   border-radius: 4px;
+  transition: border-color 200ms ease-in-out, color 200ms ease-in-out;
   &:focus{
     outline: none;
   }
   @include respond-to(wide-screen){
     &:hover{
       cursor: text;
+      color: $blue;
+      border-color: $blue;
+      transition: border-color 200ms ease-in-out, color 200ms ease-in-out;
     }
   }
 }
-
+.button{
+  width: 40%;
+  line-height: 15px;
+  font-family: 'Nanum Gothic','Ubuntu',sans-serif;
+}
 .divider{
   border-top: 1px solid #ccc;
   margin: 20px 0px;

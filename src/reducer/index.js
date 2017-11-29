@@ -1,9 +1,10 @@
 import data from './data';
+import environment from './environment';
 
 import { combineReducers } from 'redux';
 
 const appReducers = combineReducers({
-  data
+  data, environment
 });
 
 const rootReducer = (state, action) => {

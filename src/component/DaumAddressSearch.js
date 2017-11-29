@@ -12,11 +12,11 @@ export default class DaumAddressSearch extends Component {
     document.body.appendChild(script);
   }
   componentWillReceiveProps(nextProps){
-    if(nextProps.visible){
-      this.initiate(this);
+    if(!this.props.visible && nextProps.visible){
+      this.initiate(this, nextProps.screenWidth);
     }
   }
-  initiate = (comp) => {
+  initiate = (comp,width) => {
     window.daum.postcode.load(() => {
       const Postcode = new window.daum.Postcode({
         oncomplete: function oncomplete(data) {
@@ -35,7 +35,7 @@ export default class DaumAddressSearch extends Component {
         showMoreHName: comp.props.showMoreHName,
         hideMapBtn: comp.props.hideMapBtn,
         hideEngBtn: comp.props.hideEngBtn,
-        width: comp.props.width,
+        width: width<1000?width * 0.8:width * 0.4,
         height: comp.props.height,
       });
       if(this.daumSearch){
@@ -45,7 +45,6 @@ export default class DaumAddressSearch extends Component {
   }
   
   render() {
-    
     return (
       <div ref={(ref) => this.daumSearch = ref}>
         
@@ -54,12 +53,13 @@ export default class DaumAddressSearch extends Component {
   }
 }
 DaumAddressSearch.propTypes = {
+  screenWidth: PropTypes.number.isRequired,
   visible: PropTypes.bool.isRequired,
   scriptUrl: PropTypes.string.isRequired,
 };
 DaumAddressSearch.defaultProps = {
-  width: 500,
-  height: 600,
+  width: 570,
+  height: 400,
   autoClose: true,
   autoResize: false,
   animation: false,
@@ -69,8 +69,8 @@ DaumAddressSearch.defaultProps = {
   pleaseReadGuideTimer: 1.5,
   maxSuggestItems: 10,
   showMoreHName: false,
-  hideMapBtn: false,
-  hideEngBtn: false,
+  hideMapBtn: true,
+  hideEngBtn: true,
   style: null,
   defaultQuery: null,
   theme: null,
