@@ -4,8 +4,9 @@ import {connect} from 'react-redux';
 import { Modal, Button} from 'antd';
 
 import styles from '../style/Home.scss';
-import {DaumAddressSearch, Notify} from '../component';
+import {AddressSearch, DaumAddressSearch, Notify} from '../component';
 import {getAddress, setAddress, getLatlon, setLatlon} from '../action/data';
+import {searchAddress} from '../action/search';
 import {initEnvironment} from '../action/environment';
 
 class Home extends Component {
@@ -20,6 +21,7 @@ class Home extends Component {
   componentDidMount = () => {
     window.addEventListener('resize',this.props.initEnvironment);
   }
+  
   componentWillUnmount() {
     window.removeEventListener('resize', this.props.initEnvironment);
   }
@@ -56,14 +58,17 @@ class Home extends Component {
       visible: false,
     });
   }
-  handleSearchComplete = (data, autoClose) => {
-    this.props.setAddress(data);
-    if(autoClose){
-      this.setState({
-        data,
-        visible: false,
-      });
-    }
+  handleSearchComplete = (data) => {
+    this.props.setAddress(data,data.address_name);
+    this.props.setLatlon(data.y, data.x);
+    this.setState({
+      visible: false,
+    });
+    this.notify.success('검색 완료!',2000,()=>{
+      this.props.history.push('/information');
+    });
+    
+    /*
     this.props.getLatlon(data.address)
       .then(
         res=>{
@@ -71,6 +76,7 @@ class Home extends Component {
             this.props.history.push('/information');
           });
         });
+    */
   }
   getLocation = () => {
     if (navigator.geolocation) {
@@ -106,7 +112,7 @@ class Home extends Component {
   }
   render(){
     const {visible} = this.state;
-    const {address, environment} =this.props;
+    const {address, environment, search, searchAddress} =this.props;
     return(
       <div className={styles.body}>
         <div className={styles.container}>
@@ -120,15 +126,11 @@ class Home extends Component {
         </div>
         <Modal
           title="주소 찾기"
-          width={environment.screenWidth<1000?environment.screenWidth*0.84:environment.screenWidth*0.48}
           visible={visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <DaumAddressSearch 
-            screenWidth={environment.screenWidth}
-            visible={visible} 
-            handleSearchComplete={this.handleSearchComplete}/>
+          <AddressSearch visible={visible} search={search} searchAddress={searchAddress} onSelect={this.handleSearchComplete}/>
         </Modal>
         <Notify
           ref={ref=>this.notify = ref}/>
@@ -150,6 +152,9 @@ Home.propTypes = {
   environment: PropTypes.object.isRequired,
   initEnvironment: PropTypes.func.isRequired,
 
+  search: PropTypes.object.isRequired,
+  searchAddress: PropTypes.func.isRequired,
+
   location : PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 };
@@ -157,7 +162,7 @@ const mapStateToProps = (state) => {
   return {
     address : state.data.address,
     latlon: state.data.latlon,
-
+    search: state.search,
     environment: state.environment,
   };
 };
@@ -167,14 +172,17 @@ const mapDispatchToProps = (dispatch) => {
     getAddress: (lat,lon) => {
       return dispatch(getAddress(lat,lon));
     },
-    setAddress: (address) => {
-      dispatch(setAddress(address));
+    setAddress: (address,name) => {
+      dispatch(setAddress(address,name));
     },
     getLatlon: (address) => {
       return dispatch(getLatlon(address));
     },
     setLatlon: (lat,lon) => {
       dispatch(setLatlon(lat,lon));
+    },
+    searchAddress: (word, page) => {
+      return dispatch(searchAddress(word, page));
     },
     initEnvironment: () => {
       dispatch(initEnvironment());

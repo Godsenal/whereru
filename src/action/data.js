@@ -37,12 +37,12 @@ function failureFetch(type, err, code){
     code
   };
 }
-// 다음 주소 검색 이용시 주소 설정하는 raw action.
-export function setAddress(data){
+// 주소 검색 이용시 주소 설정하는 raw action.
+export function setAddress(data, name){
   return {
     type: DATA_SET_ADDRESS,
     data,
-    name: data.address
+    name,
   };
 }
 // 위도와 경도를 이용해 주소 불러오기.

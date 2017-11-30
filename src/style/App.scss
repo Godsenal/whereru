@@ -7,19 +7,16 @@ body {
   font-size: 90%;
 }
 
-body, span, div, a, h1 {
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body, button, input, select, textarea {
+body, span, div, a, h1, p, button, input, select, textarea {
   line-height: 1.5;
   font-family: 'Ubuntu', 'Nanum Gothic', sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  word-break: break-word;
+  word-wrap: break-word;
 }
+
 
 .container{
   width: 100%;
