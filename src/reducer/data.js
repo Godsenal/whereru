@@ -8,8 +8,20 @@ const initialState = {
   },
   latlon:{
     status: 'INIT',
-    lat: '',
-    lon: '',
+    lat: 0,
+    lon: 0,
+    err: '',
+    errCode: 0,
+  },
+  weather_today:{
+    status: 'INIT',
+    weather: {},
+    err: '',
+    errCode: 0,
+  },
+  weather_fivedays:{
+    status: 'INIT',
+    weathers: [],
     err: '',
     errCode: 0,
   }
@@ -49,15 +61,15 @@ export default function data(state, action){
       address: {
         status: { $set: 'FAILURE'},
         err: {$set: action.err},
-        code: {$set: action.code},
+        errCode: {$set: action.errCode},
       }
     });
   case types.DATA_SET_LATLON:
     return update(state, {
       latlon: {
         status: { $set: 'SUCCESS'},
-        lat: {$set: action.lat},
-        lon: {$set: action.lon}
+        lat: {$set: Number(action.lat)},
+        lon: {$set: Number(action.lon)}
       }
     });
   case types.DATA_GET_LATLON:
@@ -70,8 +82,8 @@ export default function data(state, action){
     return update(state, {
       latlon: {
         status: { $set: 'SUCCESS'},
-        lat: {$set: action.lat},
-        lon: {$set: action.lon},
+        lat: {$set: Number(action.lat)},
+        lon: {$set: Number(action.lon)},
       }
     });
   case types.DATA_GET_LATLON_FAILURE:
@@ -79,7 +91,49 @@ export default function data(state, action){
       latlon: {
         status: { $set: 'FAILURE'},
         err: {$set: action.err},
-        code: {$set: action.code},
+        errCode: {$set: action.errCode},
+      }
+    });
+  case types.DATA_GET_TODAY_WEATHER:
+    return update(state, {
+      weather_today: {
+        status: { $set: 'WAITING'}
+      }
+    });
+  case types.DATA_GET_TODAY_WEATHER_SUCCESS:
+    return update(state, {
+      weather_today: {
+        status: { $set: 'SUCCESS'},
+        weather: { $set: action.weather}
+      }
+    });
+  case types.DATA_GET_TODAY_WEATHER_FAILURE:
+    return update(state, {
+      weather_today: {
+        status: { $set: 'FAILURE'},
+        err: {$set: action.err},
+        errCode: {$set: action.errCode},
+      }
+    });
+  case types.DATA_GET_FIVEDAYS_WEATHER:
+    return update(state, {
+      weather_fivedays: {
+        status: { $set: 'WAITING'}
+      }
+    });
+  case types.DATA_GET_FIVEDAYS_WEATHER_SUCCESS:
+    return update(state, {
+      weather_fivedays: {
+        status: { $set: 'SUCCESS'},
+        weathers: { $set: action.weathers}
+      }
+    });
+  case types.DATA_GET_FIVEDAYS_WEATHER_FAILURE:
+    return update(state, {
+      weather_fivedays: {
+        status: { $set: 'FAILURE'},
+        err: {$set: action.err},
+        errCode: {$set: action.errCode},
       }
     });
   default:

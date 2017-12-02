@@ -1,0 +1,24 @@
+@import 'util/color.scss';
+@import 'util/centerer.scss';
+@import 'util/flex.scss';
+@import 'util/boxShadow.scss';
+@import 'util/media';
+
+.container{
+  @include respond-to(medium-screen){
+    width: 95%;
+  }
+  @include respond-to(wide-screen){
+    width: 60%;
+  }
+
+  margin: auto;
+}
+
+.button{
+  text-align: right;
+  padding: 5px 0;
+  a{
+    padding: 5px;
+  }
+}

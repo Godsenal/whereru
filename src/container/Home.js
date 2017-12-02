@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { Modal, Button} from 'antd';
+import { Button} from 'antd';
 
 import styles from '../style/Home.scss';
-import {AddressSearch, DaumAddressSearch, Notify} from '../component';
+import {DaumAddressSearch, Notify, Modal} from '../component';
 import {getAddress, setAddress, getLatlon, setLatlon} from '../action/data';
-import {searchAddress} from '../action/search';
 import {initEnvironment} from '../action/environment';
 
 class Home extends Component {
@@ -53,20 +52,28 @@ class Home extends Component {
       visible: false,
     });
   }
-  handleCancel = (e) => {
+  handleClose = (e) => {
     this.setState({
       visible: false,
     });
   }
   handleSearchComplete = (data) => {
-    this.props.setAddress(data,data.address_name);
-    this.props.setLatlon(data.y, data.x);
+    this.props.setAddress(data, data.address);
     this.setState({
       visible: false,
     });
-    this.notify.success('검색 완료!',2000,()=>{
-      this.props.history.push('/information');
-    });
+    this.props.getLatlon(data.address)
+      .then(()=>{
+        if(this.props.latlon.status === 'SUCCESS'){
+          this.notify.success('검색 완료!',2000,()=>{
+            this.props.history.push('/information');
+          });
+        }
+        else{
+          this.notify.error('검색 실패! 다시 한번 검색해주세요.',2000);
+        }
+      });
+    
     
     /*
     this.props.getLatlon(data.address)
@@ -111,8 +118,9 @@ class Home extends Component {
     }
   }
   render(){
+    const footerAction = [<Button onClick={this.handleClose}>닫기</Button>];
     const {visible} = this.state;
-    const {address, environment, search, searchAddress} =this.props;
+    const {address} =this.props;
     return(
       <div className={styles.body}>
         <div className={styles.container}>
@@ -125,12 +133,12 @@ class Home extends Component {
           <Button shape="circle" icon="compass" onClick={this.getLocation}/>
         </div>
         <Modal
-          title="주소 찾기"
+          title='주소 검색'
           visible={visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
+          handleClose={this.handleClose}
+          footer={footerAction}
         >
-          <AddressSearch visible={visible} search={search} searchAddress={searchAddress} onSelect={this.handleSearchComplete}/>
+          <DaumAddressSearch visible={visible} handleSearchComplete={this.handleSearchComplete}/>
         </Modal>
         <Notify
           ref={ref=>this.notify = ref}/>
@@ -148,12 +156,6 @@ Home.propTypes = {
   latlon: PropTypes.object.isRequired,
   setLatlon: PropTypes.func.isRequired,
   getLatlon: PropTypes.func.isRequired,
-  
-  environment: PropTypes.object.isRequired,
-  initEnvironment: PropTypes.func.isRequired,
-
-  search: PropTypes.object.isRequired,
-  searchAddress: PropTypes.func.isRequired,
 
   location : PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -162,8 +164,6 @@ const mapStateToProps = (state) => {
   return {
     address : state.data.address,
     latlon: state.data.latlon,
-    search: state.search,
-    environment: state.environment,
   };
 };
 
@@ -180,9 +180,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     setLatlon: (lat,lon) => {
       dispatch(setLatlon(lat,lon));
-    },
-    searchAddress: (word, page) => {
-      return dispatch(searchAddress(word, page));
     },
     initEnvironment: () => {
       dispatch(initEnvironment());

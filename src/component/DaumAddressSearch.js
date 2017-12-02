@@ -13,10 +13,10 @@ export default class DaumAddressSearch extends Component {
   }
   componentWillReceiveProps(nextProps){
     if(!this.props.visible && nextProps.visible){
-      this.initiate(this, nextProps.screenWidth);
+      this.initiate(this);
     }
   }
-  initiate = (comp,width) => {
+  initiate = (comp) => {
     window.daum.postcode.load(() => {
       const Postcode = new window.daum.Postcode({
         oncomplete: function oncomplete(data) {
@@ -35,7 +35,7 @@ export default class DaumAddressSearch extends Component {
         showMoreHName: comp.props.showMoreHName,
         hideMapBtn: comp.props.hideMapBtn,
         hideEngBtn: comp.props.hideEngBtn,
-        width: width<1000?width * 0.8:width * 0.4,
+        width: comp.props.width,
         height: comp.props.height,
       });
       if(this.daumSearch){
@@ -53,15 +53,15 @@ export default class DaumAddressSearch extends Component {
   }
 }
 DaumAddressSearch.propTypes = {
-  screenWidth: PropTypes.number.isRequired,
   visible: PropTypes.bool.isRequired,
+  handleSearchComplete: PropTypes.func.isRequired,
   scriptUrl: PropTypes.string.isRequired,
 };
 DaumAddressSearch.defaultProps = {
-  width: 570,
+  width: 350,
   height: 400,
   autoClose: true,
-  autoResize: false,
+  autoResize: true,
   animation: false,
   autoMapping: true,
   shorthand: true,

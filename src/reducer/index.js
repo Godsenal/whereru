@@ -1,11 +1,11 @@
 import data from './data';
-import search from './search';
+//import search from './search';
 import environment from './environment';
 
 import { combineReducers } from 'redux';
 
 const appReducers = combineReducers({
-  data, search, environment
+  data, environment
 });
 
 const rootReducer = (state, action) => {

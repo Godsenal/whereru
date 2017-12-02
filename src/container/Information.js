@@ -1,41 +1,33 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
+import {Table} from '../component';
 
 import styles from '../style/Information.scss';
 
 class Information extends Component {
-  componentDidMount = () => {
-    const {latlon, history} = this.props;
-    if(this.props.latlon.status == 'INIT'){
-      history.replace('/',{
-        isRedirect: true,
-      });
-    }
+  static propTypes = {
+    latlon: PropTypes.object.isRequired,
+    
+    address: PropTypes.object.isRequired,
+  
+    history: PropTypes.object.isRequired,
   }
   render() {
     const {latlon, address} = this.props;
+    if(this.props.latlon.status == 'INIT'){
+      return <Redirect to={{pathname: '/', state:{isRedirect: true}}}/>;
+    }
     return (
       <div className={styles.container}>
-        {
-          latlon.status == 'INIT'?
-            null:
-            <div style={{margin: 'auto', fontSize: 100}}>
-              {address.name}
-            </div>
-        }
+        <Table latlon={latlon} address={address}/>
       </div>
     );
   }
 }
 
-Information.propTypes = {
-  latlon: PropTypes.object.isRequired,
-  
-  address: PropTypes.object.isRequired,
-
-  history: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = (state) => {
   return{
@@ -43,9 +35,4 @@ const mapStateToProps = (state) => {
     address: state.data.address,
   };
 };
-const mapDispatchToProps = (dispatch) => {
-  return{
-
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Information);
+export default connect(mapStateToProps)(Information);

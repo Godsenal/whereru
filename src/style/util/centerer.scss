@@ -1,7 +1,18 @@
+@import './flex';
 @mixin bothCenterer{
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+@mixin flexCenterer($vertical: true, $horizontal: true){
+  @include flexbox;
+  @if $vertical {
+    @include justify-content(center);
+  }
 
+  @if $horizontal {
+    @include align-items(center);
+  }
+
+}

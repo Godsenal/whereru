@@ -1,0 +1,69 @@
+@import 'util/color.scss';
+@import 'util/centerer.scss';
+@import 'util/flex.scss';
+@import 'util/boxShadow.scss';
+@import 'util/media';
+.container{
+  border: 1px solid $grey;
+  border-radius: 5px;
+  @include box-shadow;
+  @include flexCenterer;
+  @include flex-direction(column);
+  width: 100%;
+  height: 300px;
+  padding: 20px;
+  transition: height 300ms ease-in-out;
+  overflow-y: auto;
+}
+
+.moreContainer{
+  border: 1px solid $grey;
+  border-radius: 5px;
+  @include box-shadow;
+  width: 100%;
+  height: 350px;
+  padding: 20px;
+  transition: height 300ms ease-in-out;
+  overflow-y: auto;
+}
+.loading{
+  padding: 20px;
+}
+.todayMain{
+  font-size: 24px;
+}
+.weatherMain{
+  display: inline-block;
+  vertical-align: middle;
+}
+.weatherDayList{
+  margin-top: 10px;
+}
+.weatherSub{
+  margin-top: 10px;
+
+}
+.weatherMainIcon{
+  font-size: 48px;
+  margin: 0 30px;
+  padding: 5px;
+}
+
+.description{
+  font-size: 16px;
+}
+
+.fivedaysMain{
+  margin-top: 1.5rem;
+}
+.fivedaysList{
+  font-size: 12px;
+  margin: 0 5px;
+}
+
+.max{
+  color: $red;
+}
+.min{
+  color: $blue;
+}
