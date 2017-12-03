@@ -187,8 +187,10 @@ export function getFivedaysWeather(lat,lon){
       .then(
         res => {
           const weathers = res.data?parseWeathers(res.data.list):[];
+          const list = res.data.list?res.data.list:[];
           dispatch(successFetch(DATA_GET_FIVEDAYS_WEATHER_SUCCESS,{
             weathers,
+            list
           }));
         },
         error => {

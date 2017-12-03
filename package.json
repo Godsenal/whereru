@@ -8,6 +8,7 @@
     "axios": "^0.17.1",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
+    "chart.js": "^2.7.1",
     "classnames": "^2.2.5",
     "eslint": "^4.12.0",
     "eslint-plugin-react": "^7.5.1",

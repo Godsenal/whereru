@@ -22,6 +22,7 @@ const initialState = {
   weather_fivedays:{
     status: 'INIT',
     weathers: [],
+    list: [],
     err: '',
     errCode: 0,
   }
@@ -125,7 +126,8 @@ export default function data(state, action){
     return update(state, {
       weather_fivedays: {
         status: { $set: 'SUCCESS'},
-        weathers: { $set: action.weathers}
+        weathers: { $set: action.weathers},
+        list: {$set: action.list}
       }
     });
   case types.DATA_GET_FIVEDAYS_WEATHER_FAILURE:
