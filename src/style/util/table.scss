@@ -1,0 +1,36 @@
+@import 'util/color.scss';
+@import 'util/centerer.scss';
+@import 'util/flex.scss';
+@import 'util/boxShadow.scss';
+
+@mixin container(){
+  border: 1px solid $grey;
+  border-radius: 5px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+@mixin moreContainer(){
+  border: 1px solid $grey;
+  border-radius: 5px;
+  @include box-shadow;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+@mixin listContainerX(){
+  padding: 5px;
+  border: 1px solid $grey;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+@mixin listContainerY(){
+  padding: 5px;
+  border: 1px solid $grey;
+  overflow-y: auto;
+}
+
+@mixin listInline(){
+  display: inline-block;
+  vertical-align: middle;
+}

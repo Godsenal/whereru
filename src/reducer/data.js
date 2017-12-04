@@ -25,6 +25,14 @@ const initialState = {
     list: [],
     err: '',
     errCode: 0,
+  },
+  attractions: {
+    status: 'INIT',
+    list: [],
+    totalCount: 0,
+    isEnd: true,
+    err: '',
+    errCode: 0,
   }
 };
 
@@ -133,6 +141,29 @@ export default function data(state, action){
   case types.DATA_GET_FIVEDAYS_WEATHER_FAILURE:
     return update(state, {
       weather_fivedays: {
+        status: { $set: 'FAILURE'},
+        err: {$set: action.err},
+        errCode: {$set: action.errCode},
+      }
+    });
+  case types.DATA_GET_ATTRACTIONS:
+    return update(state, {
+      attractions: {
+        status: { $set: 'WAITING'}
+      }
+    });
+  case types.DATA_GET_ATTRACTIONS_SUCCESS:
+    return update(state, {
+      attractions: {
+        status: { $set: 'SUCCESS'},
+        list: {$set: action.list},
+        totalCount: {$set: action.totalCount},
+        isEnd: {$set: action.isEnd}
+      }
+    });
+  case types.DATA_GET_ATTRACTIONS_FAILURE:
+    return update(state, {
+      attractions: {
         status: { $set: 'FAILURE'},
         err: {$set: action.err},
         errCode: {$set: action.errCode},

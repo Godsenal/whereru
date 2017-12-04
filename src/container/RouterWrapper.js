@@ -16,7 +16,7 @@ const RouterWrapper = (props) => {
       classNames="fade" 
       mountOnEnter={true} 
       unmountOnExit={true}>
-      <div>
+      <div style={{width: '100%', height: '100%'}}>
         <Switch location={props.location}>
           <Route exact path="/" component={Home}/>
           <Route path="/information" component={Information}/>

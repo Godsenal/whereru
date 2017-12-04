@@ -8,7 +8,7 @@ class App extends Component {
   render(){
     return(
       <div className={styles.container}>
-        <TransitionGroup>
+        <TransitionGroup className={styles.container}>
           <RouterWrapper />
         </TransitionGroup>
       </div>

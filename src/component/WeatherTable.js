@@ -16,7 +16,6 @@ const cx = classNames.bind(styles);
 
 class WeatherTable extends Component {
   static propTypes = {
-    more: PropTypes.bool.isRequired,
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
     addressName: PropTypes.string.isRequired,
@@ -29,16 +28,9 @@ class WeatherTable extends Component {
   }
   componentDidMount = () => {
     this.props.getTodayWeather(this.props.lat,this.props.lon);
+    this.props.getFivedaysWeather(this.props.lat,this.props.lon)
   }
   componentWillReceiveProps = (nextProps) => {
-    if(!this.props.more && nextProps.more){
-      this.props.getFivedaysWeather(this.props.lat,this.props.lon)
-        .then(()=>{
-          if(this.props.weather_fivedays.status === 'SUCCESS'){
-            //this.makeChart();
-          }
-        });
-    }
   }
   /*
   makeChart = () => {
@@ -164,7 +156,7 @@ class WeatherTable extends Component {
               const {weather, main, dt} = item;
               return(
                 <div className={cx('weatherMain','fivedaysList','fivedaysMain')} key={i}>
-                  <div>{moment.unix(dt).format('Do A h')}</div>
+                  <div>{moment.unix(dt).format('Do A h')}시</div>
                   <i className={this.getIcon(weather[0].id)}/>
                   <div >{weather[0].description}</div>
                   <div>
@@ -192,7 +184,7 @@ class WeatherTable extends Component {
               const {weather, temp_max, temp_min, dt} = list;
               return(
                 <div className={cx('weatherMain','fivedaysList')} key={i}>
-                  <div>{moment.unix(dt).format('dddd Do')}시</div>
+                  <div>{moment.unix(dt).format('dddd Do')}</div>
                   <i className={this.getIcon(weather.id)}/>
                   <div >{weather.description}</div>
                   <div>
@@ -209,12 +201,9 @@ class WeatherTable extends Component {
     );
   }
   render() {
-    const {weather_today, weather_fivedays, more} = this.props;
+    const {weather_today, weather_fivedays} = this.props;
     return (
-      <div className={cx({
-        container:!more,
-        moreContainer: more
-      })}>
+      <div className={cx('container')}>
         <div className={styles.todayContainer}>
           {weather_today.status === 'WAITING'?
             <div className={styles.loading}>
@@ -225,23 +214,20 @@ class WeatherTable extends Component {
               :null
           }
         </div>
-        {more?
-          <div className={styles.fivedaysContainer}>
-            {
-              weather_fivedays.status === 'WAITING'?
-                <div className={styles.loading}>
-                  <Icon type='loading'/>
+        <div className={styles.fivedaysContainer}>
+          {
+            weather_fivedays.status === 'WAITING'?
+              <div className={styles.loading}>
+                <Icon type='loading'/>
+              </div>
+              :weather_fivedays.status === 'SUCCESS'?
+                <div>
+                  {this.renderTimeWeather()}
+                  {this.renderFivedaysWeather()}
                 </div>
-                :weather_fivedays.status === 'SUCCESS'?
-                  <div>
-                    {this.renderTimeWeather()}
-                    {this.renderFivedaysWeather()}
-                  </div>
-                  :null
-            }
-          </div>:null
-        }
-        
+                :null
+          }
+        </div>
       </div>
     );
   }

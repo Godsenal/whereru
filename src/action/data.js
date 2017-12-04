@@ -13,10 +13,14 @@ import {
   DATA_GET_FIVEDAYS_WEATHER,
   DATA_GET_FIVEDAYS_WEATHER_SUCCESS,
   DATA_GET_FIVEDAYS_WEATHER_FAILURE,
+  DATA_GET_ATTRACTIONS,
+  DATA_GET_ATTRACTIONS_SUCCESS,
+  DATA_GET_ATTRACTIONS_FAILURE,
 } from './ActionTypes';
 
 import axios from 'axios';
 import moment from 'moment';
+
 const kakaoApi = axios.create({
   baseURL: 'https://dapi.kakao.com',
   headers: {
@@ -30,13 +34,26 @@ const weatherApi = axios.create({
   timeout: 10000,
 });
 
+const attractionApi = axios.create({
+  baseURL: 'http://api.visitkorea.or.kr',
+  headers: {
+    'Content-Type':'application/xml',
+  },
+  timeout: 10000,
+});
+
+const language = 'kr';
+
 const mapApi = '/v2/local/search/address.json';
 const coord2addressApi = '/v2/local/geo/coord2address.json';
 
-const language = 'kr';
+
 const weatherKey = '87c0c8e8bd2932e474295bb435c42eb8';
 const coord2weatherApi = '/data/2.5/weather';
 const coord2forecastApi = '/data/2.5/forecast';
+
+const attractionKey = '74EYk3Cq7JvQkDyy6Tm8JgFoOSwTkMKUYaiQtj8Zxr884fPPGjum34UpJJQRiuccnvvVGPzT8WxlwkJ680MOzA%3D%3D';
+const coord2attractionApi = '/openapi/service/rest/KorService/locationBasedList';
 function waitForFetch(type){
   return {
     type,
@@ -197,6 +214,46 @@ export function getFivedaysWeather(lat,lon){
           const cod = error.data.code;
           dispatch(failureFetch(
             DATA_GET_FIVEDAYS_WEATHER_FAILURE, '에러 발생.', cod
+          ));
+        }
+      );
+  };
+}
+
+export function getAttractions(lat,lon, radius = 2000, row = 10, page = 1){
+  return dispatch => {
+    dispatch(waitForFetch(DATA_GET_ATTRACTIONS));
+    return attractionApi.get(coord2attractionApi+'?ServiceKey='+attractionKey,{
+      params:{
+        contentTypeId : 12,
+        mapX : lon,
+        mapY : lat,
+        radius,
+        listYN : 'Y',
+        MobileOS : 'ETC',
+        MobileApp : 'whereru',
+        arrange : 'A',
+        numOfRows : row,
+        pageNo : page
+      }
+    })
+      .then(
+        res => {
+          const {numOfRows, pageNo, totalCount, items} = res.data.response.body;
+          let isEnd = false;
+          if(numOfRows * pageNo >= totalCount || totalCount < numOfRows){
+            isEnd = true;
+          }
+          dispatch(successFetch(DATA_GET_ATTRACTIONS_SUCCESS,{
+            list: items,
+            totalCount,
+            isEnd
+          }));
+        },
+        error => {
+          const {status, statusText } = error.config;
+          dispatch(failureFetch(
+            DATA_GET_ATTRACTIONS_FAILURE, statusText, status
           ));
         }
       );

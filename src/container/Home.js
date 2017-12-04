@@ -142,8 +142,6 @@ class Home extends Component {
         </Modal>
         <Notify
           ref={ref=>this.notify = ref}/>
-        <Button shape='circle' onClick={this.getNotify}>추가</Button>
-        <Button shape='circle' onClick={this.clearNotify}>제거</Button>
       </div>
     );
   }
@@ -159,6 +157,8 @@ Home.propTypes = {
 
   location : PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+
+  backHome: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => {
   return {
@@ -183,6 +183,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     initEnvironment: () => {
       dispatch(initEnvironment());
+    },
+    backHome: () => {
+      dispatch({
+        type: 'BACK_HOME'
+      });
     }
   };
 };

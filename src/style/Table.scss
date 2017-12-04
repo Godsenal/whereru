@@ -3,21 +3,74 @@
 @import 'util/flex.scss';
 @import 'util/boxShadow.scss';
 @import 'util/media';
+@import 'util/table';
 
 .container{
   @include respond-to(medium-screen){
-    width: 95%;
+    width: 100%;
   }
   @include respond-to(wide-screen){
-    width: 60%;
+    width: 100%;
   }
+  height: 100%;
 
+  margin: auto;
+  @include flexbox;
+  @include flex-direction(column);
+}
+
+.header{
+  @include flex(1);
+  @include flex-basis(50px);
+  @include flex-grow(0);
+  @include flex-shrink(0);
+}
+.menuWrapper{
+  width: 80%;
   margin: auto;
 }
 
+.contentContainer{
+  width: 100%;
+  padding: 20px;
+  @include flex(1);
+  @include flex-grow(1);
+  @include flex-shrink(0);
+}
+.innerContent{
+  width: 90%;
+  height: calc(100% - 40px);
+  margin: auto;
+  background: white;
+}
+.title{
+  width: 30%;
+  height: 100%;
+  @include flexCenterer;
+}
+.content{
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: auto;
+  background: white;
+  @include flexCenterer;
+}
+.listInline{
+  @include listInline;
+}
+
+.listButton{
+  @include flexbox;
+  @include justify-content(space-between);
+  @include align-items(flex-start);
+  width: 100%;
+}
 .button{
-  text-align: right;
-  padding: 5px 0;
+  @include listInline;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid $red;
   a{
     padding: 5px;
   }
