@@ -33,6 +33,14 @@ const initialState = {
     isEnd: true,
     err: '',
     errCode: 0,
+  },
+  places:{
+    status: 'INIT',
+    list: [],
+    totalCount: 0,
+    isEnd: true,
+    err: '',
+    errCode: 0,
   }
 };
 
@@ -167,6 +175,35 @@ export default function data(state, action){
         status: { $set: 'FAILURE'},
         err: {$set: action.err},
         errCode: {$set: action.errCode},
+      }
+    });
+  case types.DATA_GET_PLACES:
+    return update(state, {
+      places: {
+        status: { $set: 'WAITING'}
+      }
+    });
+  case types.DATA_GET_PLACES_SUCCESS:
+    return update(state, {
+      places: {
+        status: { $set: 'SUCCESS'},
+        list: {$set: action.list},
+        totalCount: {$set: action.totalCount},
+        isEnd: {$set: action.isEnd}
+      }
+    });
+  case types.DATA_GET_PLACES_FAILURE:
+    return update(state, {
+      places: {
+        status: { $set: 'FAILURE'},
+        err: {$set: action.err},
+        errCode: {$set: action.errCode},
+      }
+    });
+  case types.DATA_READY_GET_PLACES:
+    return update(state,{
+      places:{
+        status: { $set: 'READY'}
       }
     });
   default:

@@ -37,8 +37,8 @@ class AttractionTable extends Component {
   }
   handleRadius = (value) =>{
     const {lat, lon} = this.props;
-    const {row, page} = this.state;
-    this.props.getAttractions(lat, lon, value, row, page);
+    const {row} = this.state;
+    this.props.getAttractions(lat, lon, value, row);
     this.setState({
       radius: value,
     });

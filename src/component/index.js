@@ -5,4 +5,5 @@ import Modal from './Modal';
 import Table from './Table';
 import WeatherTable from './WeatherTable';
 import AttractionTable from './AttractionTable';
-export { DaumAddressSearch, Notify, Modal, Table, WeatherTable, AttractionTable };
+import PlaceTable from './PlaceTable';
+export { DaumAddressSearch, Notify, Modal, Table, WeatherTable, AttractionTable, PlaceTable};

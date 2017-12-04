@@ -16,6 +16,10 @@ import {
   DATA_GET_ATTRACTIONS,
   DATA_GET_ATTRACTIONS_SUCCESS,
   DATA_GET_ATTRACTIONS_FAILURE,
+  DATA_GET_PLACES,
+  DATA_GET_PLACES_SUCCESS,
+  DATA_GET_PLACES_FAILURE,
+  DATA_READY_GET_PLACES
 } from './ActionTypes';
 
 import axios from 'axios';
@@ -46,7 +50,7 @@ const language = 'kr';
 
 const mapApi = '/v2/local/search/address.json';
 const coord2addressApi = '/v2/local/geo/coord2address.json';
-
+const keywordApi = '/v2/local/search/keyword.json';
 
 const weatherKey = '87c0c8e8bd2932e474295bb435c42eb8';
 const coord2weatherApi = '/data/2.5/weather';
@@ -257,5 +261,42 @@ export function getAttractions(lat,lon, radius = 2000, row = 10, page = 1){
           ));
         }
       );
+  };
+}
+
+export function getPlaces(word, lat, lon, radius = 2000, size = 10, sort = 'accuracy', page = 1){
+  return dispatch => {
+    dispatch(waitForFetch(DATA_GET_PLACES));
+    return kakaoApi.get(keywordApi + '?query='+word,{
+      params:{
+        x: lon,
+        y: lat,
+        radius,
+        size,
+        sort,
+        page,
+      }
+    })
+      .then(
+        res=>{
+          const {documents, meta} = res.data;
+          const {total_count, is_end} = meta;
+          dispatch(successFetch(DATA_GET_PLACES_SUCCESS,{
+            list: documents,
+            totalCount: total_count,
+            isEnd: is_end,
+          }));
+        },
+        error =>{
+          dispatch(failureFetch(
+            DATA_GET_PLACES_FAILURE, error.err, error.code
+          ));
+        });
+    };
+}
+
+export function readyGetPlaces(){
+  return{
+    type: DATA_READY_GET_PLACES,
   };
 }

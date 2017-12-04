@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import { Menu, Icon } from 'antd';
 import MdWbSunny from 'react-icons/lib/md/wb-sunny';
 import MdLocalAttraction from 'react-icons/lib/md/local-attraction';
-import {WeatherTable, AttractionTable} from '../component';
+import {WeatherTable, AttractionTable, PlaceTable} from '../component';
 import styles from '../style/Table.scss';
 
 const cx = classNames.bind(styles);
@@ -47,6 +47,9 @@ export default class Table extends Component {
               <Menu.Item key="attraction">
                 <MdLocalAttraction style={{fontSize: 16}}/> 관광지
               </Menu.Item>
+              <Menu.Item key="place">
+                <MdLocalAttraction style={{fontSize: 16}}/> 장소
+              </Menu.Item>
             </Menu>
           </div>
         </div>
@@ -62,6 +65,13 @@ export default class Table extends Component {
             menu === 'attraction'?
               <div className={cx('content')}>
                 <AttractionTable lat={latlon.lat} lon={latlon.lon} addressName={address.name}/>
+              </div>
+              :null
+          }
+          {
+            menu === 'place'?
+              <div className={cx('content')}>
+                <PlaceTable lat={latlon.lat} lon={latlon.lon} addressName={address.name}/>
               </div>
               :null
           }
