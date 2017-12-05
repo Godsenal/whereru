@@ -1,7 +1,6 @@
 import express from 'express';
 import WebpackDevServer from 'webpack-dev-server';
 import webpack from 'webpack';
-import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
 import http from 'http';
@@ -12,17 +11,6 @@ const { NODE_ENV, PORT, HOST, DOMAIN } = process.env;
 
 const app = express();
 
-var db = mongoose.connection;
-db.on('error', console.error);
-db.once('open', function(){
-  console.log('Connected to mongod server');
-});
-/*
-mongoose.Promise = require('bluebird');
-mongoose.connect(config.db,{
-  useMongoClient: true,
-});
-*/
 app.use( bodyParser.urlencoded({ extended: true }) );
 app.use(bodyParser.json());
 

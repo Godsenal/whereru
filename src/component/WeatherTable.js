@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Icon} from 'antd';
-import Chart from 'chart.js';
 
 import moment from 'moment';
 import classNames from 'classnames/bind';
@@ -103,16 +102,25 @@ class WeatherTable extends Component {
   }
   */
   //섭씨 구하기.
-  getC = (temp) => {
-    return (temp - 273.15).toFixed(1);
+  getC = (temp,type = 'S') => {
+    temp = Number(temp);
+    if(type == 'S'){
+      temp = temp - 273.15;
+    }
+    return temp.toFixed(1);
   }
   //json parsing해서 openweathermap의 id에 맞는 icon 가져오기.
-  getIcon = (code) => {
+  getIcon = (code, API = 'OWM') => { // Open Weather Map
     var prefix = 'wi wi-';
     var icon = weatherIcons[code].icon;
   
     // If we are not in the ranges mentioned above, add a day/night prefix.
-    if (!(code > 699 && code < 800) && !(code > 899 && code < 1000)) {
+    if(API === 'SK'){
+      if (code < 7) {
+        icon = 'day-' + icon;
+      }
+    }
+    else if (!(code > 699 && code < 800) && !(code > 899 && code < 1000)) {
       icon = 'day-' + icon;
     }
   
@@ -123,24 +131,33 @@ class WeatherTable extends Component {
   }
   renderTodayWeather = () => {
     const {weather} = this.props.weather_today;
+    if(weather.length <= 0){
+      return(
+        <div>
+          날씨 정보를 불러오지 못했습니다.
+        </div>
+      );
+    }
+    const {sky, temperature, humidity, wind, timeObservation} = weather;
+    const code = sky.code.substring(5,7);
     return (
       <div>
         <div className={styles.todayMain}>
           <div className={styles.header}>현재 날씨</div>
           <div className={cx('weatherMain','weatherMainIcon')}>
-            <div className={cx('date','description')}>{moment.unix(weather.dt).format('dddd Do')}</div>
-            <i className={this.getIcon(weather.id)}/>
-            <div className={styles.description}>{weather.description}</div>
+            <div className={cx('date','description')}>{moment(timeObservation).format('dddd Do')}</div>
+            <i className={this.getIcon(code,'SK')}/>
+            <div className={styles.description}>{sky.name}</div>
           </div>
           <div className={styles.weatherMain}>
-            <div>현재기온 : {this.getC(weather.temp)}°C</div>
-            <div>습도 : {weather.humidity}%</div>
-            <div>바람 : {weather.wind.speed}m/s</div>
+            <div>현재기온 : {this.getC(temperature.tc,'C')}°C</div>
+            <div>습도 : {humidity?Number(humidity).toFixed(1):'?'}%</div>
+            <div>바람 : {wind.wspd?Number(wind.wspd).toFixed(1):'?'}m/s</div>
           </div>
         </div>
         <div className={styles.weatherSub}>
-          <div className={styles.max}>최고 기온 : {this.getC(weather.temp_max)}°C</div>
-          <div className={styles.min}>최저 기온 : {this.getC(weather.temp_min)}°C</div>
+          <div className={styles.max}>최고 기온 : {this.getC(temperature.tmax,'C')}°C</div>
+          <div className={styles.min}>최저 기온 : {this.getC(temperature.tmin,'C')}°C</div>
         </div>
       </div>
     );

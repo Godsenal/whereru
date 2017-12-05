@@ -41,6 +41,7 @@ class AttractionTable extends Component {
     this.props.getAttractions(lat, lon, value, row);
     this.setState({
       radius: value,
+      page: 1,
     });
   }
   renderAttractions = () => {
@@ -86,13 +87,12 @@ class AttractionTable extends Component {
     return (
       <div className={cx('container')}>
         <div className={styles.filter}>
-          <span>반경 : </span>
           <Select defaultValue="2000" size='small' style={{ width: 120 }} onChange={this.handleRadius}>
-            <Option value="100">100</Option>
-            <Option value="500">500</Option>
-            <Option value="1000">1000</Option>
-            <Option value="2000">2000</Option>
-            <Option value="5000">5000</Option>
+            <Option value="100">100m 내</Option>
+            <Option value="500">500m 내</Option>
+            <Option value="1000">1km 내</Option>
+            <Option value="2000">2km 내</Option>
+            <Option value="5000">5km 내</Option>
           </Select>
         </div>
         <div className={cx('listContainer')}>

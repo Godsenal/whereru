@@ -4,9 +4,15 @@
 @import 'util/boxShadow.scss';
 @import 'util/media';
 @import 'util/table';
+@import 'util/input';
 
 .container{
-  width: 100%;
+  @include respond-to(medium-screen){
+    width: 100%;
+  }
+  @include respond-to(wide-screen){
+    width: 90%;
+  }
   height: 100%;
   transition: width 300ms ease-in-out, height 300ms ease-in-out;
 }
@@ -23,7 +29,7 @@
 }
 
 .listWrapper{
-  width: 90%;
+  width: 100%;
   margin: auto;
 }
 
@@ -31,7 +37,27 @@
   @include listInline;
   margin: 5px;
 }
-
+.inputContainer{
+  @include respond-to(medium-screen){
+    width: 80%;
+  }
+  @include respond-to(wide-screen){
+    width: 50%;
+  }
+  margin: auto;
+  input{
+    @include input;
+  }
+}
+.searchHeader{
+  margin: 10px 0px;
+}
+.float-left{
+  float: left;
+}
+.float-right{
+  float: right;
+}
 .listTitle{
   font-size: 16px;
   color: black;
@@ -55,4 +81,20 @@
   font-size: 16px;
   text-align: center;
   margin: 10px;
+}
+
+.ready{
+  margin-top: 1.5rem;
+  font-size: 16px;
+  padding: 20px;
+  width: 100%;
+  
+  p{
+    padding: 10px;
+    word-break: break-word;
+    word-wrap: break-word;
+    span{
+      font-weight: 800;
+    }
+  }
 }

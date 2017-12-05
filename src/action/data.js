@@ -33,9 +33,20 @@ const kakaoApi = axios.create({
   },
   timeout: 10000,
 });
+// Open Weather Map Api : Only Show Current time weather.
+//const coord2weatherApi = '/data/2.5/weather';
 const weatherApi = axios.create({
   baseURL: 'https://api.openweathermap.org',
   timeout: 10000,
+});
+
+
+const weatherSKApi = axios.create({
+  baseURL: 'http://apis.skplanetx.com',
+  headers: {
+    'APPKEY': '411d2653-ba9e-3e61-a2d8-f2cc8b3cd2af',
+  },
+  timeout: 1000,
 });
 
 const attractionApi = axios.create({
@@ -53,7 +64,7 @@ const coord2addressApi = '/v2/local/geo/coord2address.json';
 const keywordApi = '/v2/local/search/keyword.json';
 
 const weatherKey = '87c0c8e8bd2932e474295bb435c42eb8';
-const coord2weatherApi = '/data/2.5/weather';
+const coord2weatherSKApi = '/weather/current/hourly';
 const coord2forecastApi = '/data/2.5/forecast';
 
 const attractionKey = '74EYk3Cq7JvQkDyy6Tm8JgFoOSwTkMKUYaiQtj8Zxr884fPPGjum34UpJJQRiuccnvvVGPzT8WxlwkJ680MOzA%3D%3D';
@@ -133,25 +144,32 @@ export function getLatlon(address){
   };
 }
 // 위,경도를 이용해 오늘 날씨 불러오기.
+//coord2weatherApi+'?lat='+lat+'&lon='+lon+'&lang='+language+'&APPID='+weatherKey <= Open Weatehr Map
 export function getTodayWeather(lat,lon){
   return dispatch => {
     dispatch(waitForFetch(DATA_GET_TODAY_WEATHER));
-    return weatherApi.get(coord2weatherApi+'?lat='+lat+'&lon='+lon+'&lang='+language+'&APPID='+weatherKey)
+    return weatherSKApi.get(coord2weatherSKApi+'?version='+1,{
+      params:{
+        lat,
+        lon,
+      }
+    })
       .then(
         res => {
-          const data =res.data.weather?res.data.weather[0]:[];
-          const temp = res.data.main;
-          const {dt, wind, rain} = res.data;
-          let weather = {
-            ...data,
-            ...temp,
-            dt,
-            wind,
-            rain
-          };
-          dispatch(successFetch(DATA_GET_TODAY_WEATHER_SUCCESS,{
-            weather
-          }));
+          const {weather, result} =res.data;
+          if(result.code !== 9200){ // FAIL
+            const cod = result.code;
+            dispatch(failureFetch(
+              DATA_GET_TODAY_WEATHER_FAILURE, '에러 발생.', cod
+            ));
+          }
+          else{
+            const data = weather.hourly[0];
+            dispatch(successFetch(DATA_GET_TODAY_WEATHER_SUCCESS,{
+              weather: {...data}
+            }));
+          }
+          
         },
         error => {
           const cod = error.data.code;
@@ -280,10 +298,10 @@ export function getPlaces(word, lat, lon, radius = 2000, size = 10, sort = 'accu
       .then(
         res=>{
           const {documents, meta} = res.data;
-          const {total_count, is_end} = meta;
+          const {pageable_count, is_end} = meta;
           dispatch(successFetch(DATA_GET_PLACES_SUCCESS,{
             list: documents,
-            totalCount: total_count,
+            totalCount: pageable_count,
             isEnd: is_end,
           }));
         },

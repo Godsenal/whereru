@@ -1,0 +1,24 @@
+@import './color';
+@import './media';
+@mixin input{
+  font-family: 'Nanum Gothic','Ubuntu',sans-serif;
+  font-size: 16px;
+  padding: 5px;
+  width: 100%;
+  text-align: center;
+  border: .5px solid;
+  border-color: #ccc;
+  color: black;
+  border-radius: 4px;
+  &:focus{
+    outline: none;
+    border-color: $blue;
+  }
+  @include respond-to(wide-screen){
+    &:hover{
+      border-color: $blue;
+      transition: border-color 300ms ease-in-out;
+    }
+  }
+  
+}

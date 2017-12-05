@@ -40,9 +40,8 @@
 
 }
 .imageAlt{
-  height: 150px;
   text-align: center;
-  padding: 20px;
+  padding: 75px 0;
   
   color: $green;
   word-break: break-word;
@@ -50,6 +49,7 @@
 }
 .pagination{
   text-align: center;
+  margin: 10px 0;
 }
 .filter{
   font-size: 16px;

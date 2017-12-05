@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import { Menu, Icon } from 'antd';
 import MdWbSunny from 'react-icons/lib/md/wb-sunny';
 import MdLocalAttraction from 'react-icons/lib/md/local-attraction';
+import MdLocationOn from 'react-icons/lib/md/location-on';
 import {WeatherTable, AttractionTable, PlaceTable} from '../component';
 import styles from '../style/Table.scss';
 
@@ -48,7 +49,7 @@ export default class Table extends Component {
                 <MdLocalAttraction style={{fontSize: 16}}/> 관광지
               </Menu.Item>
               <Menu.Item key="place">
-                <MdLocalAttraction style={{fontSize: 16}}/> 장소
+                <MdLocationOn style={{fontSize: 16}}/> 장소
               </Menu.Item>
             </Menu>
           </div>
