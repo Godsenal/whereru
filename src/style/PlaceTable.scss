@@ -82,7 +82,10 @@
   text-align: center;
   margin: 10px;
 }
-
+.column{
+  background: $light-blue;
+  color: white;
+}
 .ready{
   margin-top: 1.5rem;
   font-size: 16px;
@@ -94,7 +97,8 @@
     word-break: break-word;
     word-wrap: break-word;
     span{
-      font-weight: 800;
+      font-weight: 600;
+      color:$light-blue;
     }
   }
 }

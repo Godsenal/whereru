@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
-import { Menu, Icon } from 'antd';
+import { Menu, Icon, Affix } from 'antd';
 import MdWbSunny from 'react-icons/lib/md/wb-sunny';
 import MdLocalAttraction from 'react-icons/lib/md/local-attraction';
 import MdLocationOn from 'react-icons/lib/md/location-on';
@@ -36,23 +36,25 @@ export default class Table extends Component {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.address}>{address.name}</div>
-          <div className={styles.menuWrapper}>
-            <Menu
-              onClick={this.handleMenu}
-              selectedKeys={[menu]}
-              mode="horizontal"
-            >
-              <Menu.Item key="weather">
-                <MdWbSunny style={{fontSize: 16}}/> 날씨
-              </Menu.Item>
-              <Menu.Item key="attraction">
-                <MdLocalAttraction style={{fontSize: 16}}/> 관광지
-              </Menu.Item>
-              <Menu.Item key="place">
-                <MdLocationOn style={{fontSize: 16}}/> 장소
-              </Menu.Item>
-            </Menu>
-          </div>
+          <Affix>
+            <div className={styles.menuWrapper}>
+              <Menu
+                onClick={this.handleMenu}
+                selectedKeys={[menu]}
+                mode="horizontal"
+              >
+                <Menu.Item key="weather">
+                  <MdWbSunny style={{fontSize: 16}}/> 날씨
+                </Menu.Item>
+                <Menu.Item key="attraction">
+                  <MdLocalAttraction style={{fontSize: 16}}/> 관광지
+                </Menu.Item>
+                <Menu.Item key="place">
+                  <MdLocationOn style={{fontSize: 16}}/> 장소
+                </Menu.Item>
+              </Menu>
+            </div>
+          </Affix>
         </div>
         <div className={styles.contentContainer}>
           {

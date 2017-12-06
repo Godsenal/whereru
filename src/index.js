@@ -4,7 +4,6 @@ import {
   BrowserRouter,
 } from 'react-router-dom';
 
-
 import 'babel-polyfill';
 
 import { Provider } from 'react-redux';
@@ -24,5 +23,5 @@ ReactDOM.render(
       </LocaleProvider>
     </BrowserRouter>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('app')
 );

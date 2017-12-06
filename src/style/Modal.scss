@@ -15,6 +15,9 @@
 .wrapper{
   border-radius: 5px;
   @include box-shadow;
+
+  background: white;
+  color: black;
 }
 
 .header{

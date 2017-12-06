@@ -167,7 +167,7 @@ class PlaceTable extends Component {
                   <div>
                     <Table 
                       columns={columns} 
-                      dataSource={data} 
+                      dataSource={data}
                       pagination={{
                         onChange: this.handlePagination,
                         current: page,

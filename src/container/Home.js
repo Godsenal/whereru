@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { Button} from 'antd';
-
+import classNames from 'classnames/bind';
 import styles from '../style/Home.scss';
 import {DaumAddressSearch, Notify, Modal} from '../component';
 import {getAddress, setAddress, getLatlon, setLatlon} from '../action/data';
 import {initEnvironment} from '../action/environment';
+
+const cx = classNames.bind(styles);
 
 class Home extends Component {
   constructor(props) {
@@ -17,6 +19,7 @@ class Home extends Component {
       isReady : false,
     };
   }
+  /*
   componentDidMount = () => {
     window.addEventListener('resize',this.props.initEnvironment);
   }
@@ -24,13 +27,10 @@ class Home extends Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.props.initEnvironment);
   }
-  componentWillReceiveProps(nextProps){
-    if(nextProps.location.state && nextProps.location.state.isRedirect){
-      this.props.history.replace('/',undefined);
-      this.notify.warning('먼저 위치를 설정해주세요.',3000);
-      
-    }
+  */
+  componentDidMount = () => {
   }
+  
   /*
   getNotify = () => {
     this.notify.success('hoho',0);
@@ -89,6 +89,11 @@ class Home extends Component {
     if (navigator.geolocation) {
       this.notify.clearNotify();
       const msg = this.notify.loading('주소를 가져오는 중...', 0);
+      var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      };
       navigator.geolocation.getCurrentPosition(
         position=>{
           let lat = position.coords.latitude;
@@ -111,26 +116,33 @@ class Home extends Component {
         error=>{
           this.notify.removeNotify(msg);
           this.notify.error('위치 확인 권한을 허용한 후 다시 눌러주세요.');
-        });
+        },options);
       
     } else {
       this.notify.warning('위치 확인을 지원하지 않는 기기입니다.');
     }
   }
   render(){
-    const footerAction = [<Button onClick={this.handleClose}>닫기</Button>];
+    const footerAction = [<Button key={1} onClick={this.handleClose}>닫기</Button>];
     const {visible} = this.state;
     const {address} =this.props;
     return(
       <div className={styles.body}>
         <div className={styles.container}>
-          <h2 className={styles.question}>어디에 있으신가요?</h2>
-          <div className={styles.mainInput} tabIndex='-1' onClick={this.showModal} >
-            {address.name?address.name:'검색해보세요.'}
+          <h2 className={cx('title')}>WHERE ARE YOU?</h2>
+
+          <div className={cx('questionWrapper')}>
+            <p className={styles.question}>위치를 지정해주세요.</p>
+            <p className={styles.question}>정해진 위치로 주변 정보들을 보여드립니다.</p>
           </div>
-          <div className={styles.divider}/>
-          <div className={styles.or}>or</div>
-          <Button shape="circle" icon="compass" onClick={this.getLocation}/>
+          <div className={styles.inputContainer}>
+            <a className={styles.button} onClick={this.showModal}>
+              주소로 검색
+            </a>
+            <a className={styles.button} onClick={this.getLocation}>
+              현재 위치 지정
+            </a>
+          </div>
         </div>
         <Modal
           title='주소 검색'

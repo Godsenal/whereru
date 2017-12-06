@@ -18,7 +18,7 @@ class Information extends Component {
   render() {
     const {latlon, address} = this.props;
     if(this.props.latlon.status == 'INIT'){
-      return <Redirect to={{pathname: '/', state:{isRedirect: true}}}/>;
+      return <Redirect to='/'/>;
     }
     return (
       <div className={styles.container}>

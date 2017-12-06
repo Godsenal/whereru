@@ -27,7 +27,7 @@ class WeatherTable extends Component {
   }
   componentDidMount = () => {
     this.props.getTodayWeather(this.props.lat,this.props.lon);
-    this.props.getFivedaysWeather(this.props.lat,this.props.lon)
+    this.props.getFivedaysWeather(this.props.lat,this.props.lon);
   }
   componentWillReceiveProps = (nextProps) => {
   }

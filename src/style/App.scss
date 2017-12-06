@@ -1,27 +1,30 @@
 
 html, body {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   margin: 0;
-  overflow-y: hidden;
+  padding: 0;
   font-size: 90%;
 }
+body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
+}
 body, span, div, a, h1, p, button, input, select, textarea, table, ul {
   line-height: 1.5;
   
-  font-family: 'Ubuntu', 'NanumSquare', 'Nanum Gothic', sans-serif;
-  font-weight: 600;
-  text-rendering: optimizeLegibility;
+  font-family: 'Ubuntu', 'Noto Sans KR', 'Nanum Gothic', sans-serif;
+  text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   word-break: break-word;
   word-wrap: break-word;
 }
-
 .container{
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  margin: 0;
 }
 
 .slideLeft-enter {
