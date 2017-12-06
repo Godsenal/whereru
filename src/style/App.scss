@@ -3,13 +3,15 @@ html, body {
   width: 100vw;
   height: 100vh;
   margin: 0;
-  overflow-y: auto;
+  overflow-y: hidden;
   font-size: 90%;
 }
 
-body, span, div, a, h1, p, button, input, select, textarea {
+body, span, div, a, h1, p, button, input, select, textarea, table, ul {
   line-height: 1.5;
-  font-family: 'Ubuntu', 'Nanum Gothic', sans-serif;
+  
+  font-family: 'Ubuntu', 'NanumSquare', 'Nanum Gothic', sans-serif;
+  font-weight: 600;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

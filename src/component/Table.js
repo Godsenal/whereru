@@ -35,7 +35,7 @@ export default class Table extends Component {
     return (
       <div className={styles.container}>
         <div className={styles.header}>
-          <div >{address.name}</div>
+          <div className={styles.address}>{address.name}</div>
           <div className={styles.menuWrapper}>
             <Menu
               onClick={this.handleMenu}
