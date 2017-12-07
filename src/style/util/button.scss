@@ -1,0 +1,55 @@
+@import './animation';
+@import './media';
+
+@include keyframes(ripple) {
+  0% {
+    transform: scale(0, 0);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+}
+
+@mixin ripple-button($background-color:white) {
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, .4);
+  background-color: $background-color;
+  @include respond-to(wide-screen){
+    &:hover{
+      background-color: darken($background-color,20%);
+      -webkit-transition: background-color 0.3s ease-out;
+      transition: background-color 0.3s ease-out;
+    }
+
+  }
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #000 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10,10);
+    opacity: 0;
+    transition: transform .5s, opacity 1s;
+  }
+
+  &:active:after {
+    transform: scale(0,0);
+    opacity: .2;
+    transition: 0s;
+  }
+}

@@ -4,6 +4,7 @@
 @import 'util/boxShadow.scss';
 @import 'util/media';
 @import 'util/table';
+@import 'util/button';
 
 .container{
   @include respond-to(medium-screen){
@@ -24,10 +25,33 @@
   color: white;
 }
 
-.address{
-  font-size: 20px;
-  padding: 20px 0;
+.translateWrapper{
+  overflow-x: hidden;
+}
 
+.address{
+  @include respond-to(medium-screen){
+    font-size: 16px;
+  }
+  @include respond-to(wide-screen){
+    font-size: 20px;
+  }
+  padding: 20px 0;
+  span{
+    vertical-align: middle;
+  }
+
+}
+
+.reset{
+  font-size: 12px;
+  border: 0;
+  outline: none;
+  border-radius: 5px;
+  padding: 2px 10px;
+  margin: 0 10px;
+  color:$light-blue;
+  @include ripple-button;
 }
 .menuWrapper{
   width: 100%;
@@ -61,7 +85,9 @@
 .listInline{
   @include listInline;
 }
-
+.inline{
+  display: inline-block;
+}
 .listButton{
   @include flexbox;
   @include justify-content(space-between);

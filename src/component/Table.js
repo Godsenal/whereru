@@ -11,6 +11,7 @@ import styles from '../style/Table.scss';
 
 const cx = classNames.bind(styles);
 
+
 export default class Table extends Component {
   static propTypes = {
     latlon: PropTypes.object.isRequired,
@@ -18,10 +19,16 @@ export default class Table extends Component {
   }
   state = {
     menu: 'weather',
+    button: false,
   }
   clickMore = (comp) => {
     this.setState({
       [comp]: !this.state[comp],
+    });
+  }
+  showButton = () => {
+    this.setState({
+      button: !this.state.button
     });
   }
   handleMenu = (e) => {
@@ -31,11 +38,16 @@ export default class Table extends Component {
   }
   render() {
     const {latlon, address} = this.props;
-    const {menu, weather, attraction} = this.state;
+    const {menu, weather, attraction, button} = this.state;
     return (
       <div className={styles.container}>
         <div className={styles.header}>
-          <div className={styles.address}>{address.name}</div>
+          <div className={styles.address}>
+            <div className={cx('inline')}>
+              <span>{address.name}</span>
+            </div>
+            <button className={styles.reset} onClick={this.showButton}><MdLocationOn style={{fontSize: 16}}/></button>
+          </div>
           <Affix>
             <div className={styles.menuWrapper}>
               <Menu

@@ -136,12 +136,12 @@ class Home extends Component {
             <p className={styles.question}>정해진 위치로 주변 정보들을 보여드립니다.</p>
           </div>
           <div className={styles.inputContainer}>
-            <a className={styles.button} onClick={this.showModal}>
+            <button className={styles.button} onClick={this.showModal}>
               주소로 검색
-            </a>
-            <a className={styles.button} onClick={this.getLocation}>
+            </button>
+            <button className={styles.button} onClick={this.getLocation}>
               현재 위치 지정
-            </a>
+            </button>
           </div>
         </div>
         <Modal
